@@ -1,37 +1,37 @@
-# MEMORY.md - 项目长期记忆
+# MEMORY.md - é¡¹ç›®é•¿æœŸè®°å¿†
 
-## 项目：Daily Booking Dashboard
-- **仓库**: https://github.com/Elaine-Teh/daily-booking-dashboard
+## é¡¹ç›®ï¼šDaily Booking Dashboard
+- **ä»“åº“**: https://github.com/Elaine-Teh/daily-booking-dashboard
 - **GitHub Pages**: https://elaine-teh.github.io/daily-booking-dashboard/
-- **生成脚本**: `generate_daily_booking_dashboard.py`
-- **架构**: 双文件架构 — `index.html`（UI 壳 ~31KB）+ `db_data.json`（数据异步加载 ~27MB）
-- **Chart.js**: CDN 引入（不内联）
-- **数据源**: `daily booking.xlsx` 从 SFTP (10.5.4.2:6622) `Master Data-Bob/` 自动下载；POR Region 映射硬编码在脚本中（69 个，不再依赖 Income Data Base-Marketing.xlsx）
-- **输出**: 脚本同时生成 `index.html` 和 `db_data.json`，需一起推送到 GitHub Pages 根目录
-- **数据规模**: ~54,000 条 booking 记录，42 Lanes，63 POLs，83 DELs，848 CULs
+- **ç”Ÿæˆè„šæœ¬**: `generate_daily_booking_dashboard.py`
+- **æž¶æž„**: åŒæ–‡ä»¶æž¶æž„ â€” `index.html`ï¼ˆUI å£³ ~31KBï¼‰+ `db_data.json`ï¼ˆæ•°æ®å¼‚æ­¥åŠ è½½ ~27MBï¼‰
+- **Chart.js**: CDN å¼•å…¥ï¼ˆä¸å†…è”ï¼‰
+- **æ•°æ®æº**: `daily booking.xlsx` ä»Ž SFTP (10.5.4.2:6622) `Master Data-Bob/` è‡ªåŠ¨ä¸‹è½½ï¼›POR Region æ˜ å°„ç¡¬ç¼–ç åœ¨è„šæœ¬ä¸­ï¼ˆ69 ä¸ªï¼Œä¸å†ä¾èµ– Income Data Base-Marketing.xlsxï¼‰
+- **è¾“å‡º**: è„šæœ¬åŒæ—¶ç”Ÿæˆ `index.html` å’Œ `db_data.json`ï¼Œéœ€ä¸€èµ·æŽ¨é€åˆ° GitHub Pages æ ¹ç›®å½•
+- **æ•°æ®è§„æ¨¡**: ~54,000 æ¡ booking è®°å½•ï¼Œ42 Lanesï¼Œ63 POLsï¼Œ83 DELsï¼Œ848 CULs
 
-### 2026-05-22 修复记录
-- **问题**: 原 `index.html` 有 16.7 MB（内联了完整 Chart.js + 数据），浏览器无法加载
-- **根因**: GitHub 上的 `index.html` 不是由生成脚本产生的，且有人把 Chart.js 内联嵌入了 HTML
-- **修复**: 重构为 fetch 异步加载 `db_data.json` 的双文件架构，index.html 降至 ~31KB
-- **验证**: 页面已在 preview 中打开，数据正常加载
+### 2026-05-22 ä¿®å¤è®°å½•
+- **é—®é¢˜**: åŽŸ `index.html` æœ‰ 16.7 MBï¼ˆå†…è”äº†å®Œæ•´ Chart.js + æ•°æ®ï¼‰ï¼Œæµè§ˆå™¨æ— æ³•åŠ è½½
+- **æ ¹å› **: GitHub ä¸Šçš„ `index.html` ä¸æ˜¯ç”±ç”Ÿæˆè„šæœ¬äº§ç”Ÿçš„ï¼Œä¸”æœ‰äººæŠŠ Chart.js å†…è”åµŒå…¥äº† HTML
+- **ä¿®å¤**: é‡æž„ä¸º fetch å¼‚æ­¥åŠ è½½ `db_data.json` çš„åŒæ–‡ä»¶æž¶æž„ï¼Œindex.html é™è‡³ ~31KB
+- **éªŒè¯**: é¡µé¢å·²åœ¨ preview ä¸­æ‰“å¼€ï¼Œæ•°æ®æ­£å¸¸åŠ è½½
 
-### 2026-05-22 二次修复（缓存问题）
-- **问题**: 页面仍显示 "Loading dashboard data..."，数据无法加载
-- **根因**: GitHub Pages CDN 缓存 + 企业网络可能限制大文件下载（27MB JSON）
-- **修复**: 
-  - fetch URL 添加 `?v=2` 缓存清除参数
-  - 添加 `AbortController` 30 秒超时机制
-  - 增强错误提示（区分超时 vs 网络错误）
-- **状态**: 已推送更新，待 Elaine 刷新验证
+### 2026-05-22 äºŒæ¬¡ä¿®å¤ï¼ˆç¼“å­˜é—®é¢˜ï¼‰
+- **é—®é¢˜**: é¡µé¢ä»æ˜¾ç¤º "Loading dashboard data..."ï¼Œæ•°æ®æ— æ³•åŠ è½½
+- **æ ¹å› **: GitHub Pages CDN ç¼“å­˜ + ä¼ä¸šç½‘ç»œå¯èƒ½é™åˆ¶å¤§æ–‡ä»¶ä¸‹è½½ï¼ˆ27MB JSONï¼‰
+- **ä¿®å¤**: 
+  - fetch URL æ·»åŠ  `?v=2` ç¼“å­˜æ¸…é™¤å‚æ•°
+  - æ·»åŠ  `AbortController` 30 ç§’è¶…æ—¶æœºåˆ¶
+  - å¢žå¼ºé”™è¯¯æç¤ºï¼ˆåŒºåˆ†è¶…æ—¶ vs ç½‘ç»œé”™è¯¯ï¼‰
+- **çŠ¶æ€**: å·²æŽ¨é€æ›´æ–°ï¼Œå¾… Elaine åˆ·æ–°éªŒè¯
 
-### 2026-05-22 功能增强
-- **POL 排序**: Summary table POL 列按字母顺序排列
-- **ETD 日期范围筛选**: 新增 From/To 日期选择器，自动设置 min/max
-- **级联筛选（Lane → CUL/POL/DEL）**: 选中 Lane 后，其他筛选项只显示该 Lane 下的选项
-- **级联筛选（ETD → CUL/POL/DEL）**: 选择 ETD 范围后，CUL/POL/DEL 只显示该日期范围内有数据的选项
-- **统一级联函数** `cascadeFilters()`: Lane 选择 + ETD 范围共同决定 CUL/POL/DEL 可用选项
-- **ETD 范围自适应**: 选中 Lane 后，ETD 日期选择器自动调整为该 Lane 的实际数据日期范围，避免选到无数据的区间
-- **Bug 修复 (2026-05-22)**: `cascadeFilters()` 中 DEL 字段名错误 `r.del` → `r.del_port`，导致 ETD/Lane 筛选后数据全部消失
-- **Bug 修复 (2026-05-22)**: Reset All 按钮只重置 Lane 和 ETD，CUL/POL/DEL 仍保持之前选择。根因是用了 `updateItems()` 而非 `setAll()`，修复后改为 `setAll()`
-- **Bug 修复 (2026-05-23)**: `LANE_ETD_MAP` 未从 payload 加载（漏写 `LANE_ETD_MAP = payload.lane_etd_map || {}`），导致 `onLaneChange` 访问时抛出 TypeError，Lane 筛选选择后 cascadeFilters/refreshAll 从未执行，数据始终不更新
+### 2026-05-22 åŠŸèƒ½å¢žå¼º
+- **POL æŽ’åº**: Summary table POL åˆ—æŒ‰å­—æ¯é¡ºåºæŽ’åˆ—
+- **ETD æ—¥æœŸèŒƒå›´ç­›é€‰**: æ–°å¢ž From/To æ—¥æœŸé€‰æ‹©å™¨ï¼Œè‡ªåŠ¨è®¾ç½® min/max
+- **çº§è”ç­›é€‰ï¼ˆLane â†’ CUL/POL/DELï¼‰**: é€‰ä¸­ Lane åŽï¼Œå…¶ä»–ç­›é€‰é¡¹åªæ˜¾ç¤ºè¯¥ Lane ä¸‹çš„é€‰é¡¹
+- **çº§è”ç­›é€‰ï¼ˆETD â†’ CUL/POL/DELï¼‰**: é€‰æ‹© ETD èŒƒå›´åŽï¼ŒCUL/POL/DEL åªæ˜¾ç¤ºè¯¥æ—¥æœŸèŒƒå›´å†…æœ‰æ•°æ®çš„é€‰é¡¹
+- **ç»Ÿä¸€çº§è”å‡½æ•°** `cascadeFilters()`: Lane é€‰æ‹© + ETD èŒƒå›´å…±åŒå†³å®š CUL/POL/DEL å¯ç”¨é€‰é¡¹
+- **ETD èŒƒå›´è‡ªé€‚åº”**: é€‰ä¸­ Lane åŽï¼ŒETD æ—¥æœŸé€‰æ‹©å™¨è‡ªåŠ¨è°ƒæ•´ä¸ºè¯¥ Lane çš„å®žé™…æ•°æ®æ—¥æœŸèŒƒå›´ï¼Œé¿å…é€‰åˆ°æ— æ•°æ®çš„åŒºé—´
+- **Bug ä¿®å¤ (2026-05-22)**: `cascadeFilters()` ä¸­ DEL å­—æ®µåé”™è¯¯ `r.del` â†’ `r.del_port`ï¼Œå¯¼è‡´ ETD/Lane ç­›é€‰åŽæ•°æ®å…¨éƒ¨æ¶ˆå¤±
+- **Bug ä¿®å¤ (2026-05-22)**: Reset All æŒ‰é’®åªé‡ç½® Lane å’Œ ETDï¼ŒCUL/POL/DEL ä»ä¿æŒä¹‹å‰é€‰æ‹©ã€‚æ ¹å› æ˜¯ç”¨äº† `updateItems()` è€Œéž `setAll()`ï¼Œä¿®å¤åŽæ”¹ä¸º `setAll()`
+- **Bug ä¿®å¤ (2026-05-23)**: `LANE_ETD_MAP` æœªä»Ž payload åŠ è½½ï¼ˆæ¼å†™ `LANE_ETD_MAP = payload.lane_etd_map || {}`ï¼‰ï¼Œå¯¼è‡´ `onLaneChange` è®¿é—®æ—¶æŠ›å‡º TypeErrorï¼ŒLane ç­›é€‰é€‰æ‹©åŽ cascadeFilters/refreshAll ä»Žæœªæ‰§è¡Œï¼Œæ•°æ®å§‹ç»ˆä¸æ›´æ–°
