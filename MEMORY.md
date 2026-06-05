@@ -8,10 +8,9 @@
 - **Chart.js**: CDN 引入（不内联）
 - **数据源**: `daily booking.xlsx` 从 SFTP (10.5.4.2:6622) `Master Data-Bob/` 自动下载；POR Region 映射硬编码在脚本中（69 个，不再依赖 Income Data Base-Marketing.xlsx）
 - **输出**: `generate_daily_booking_dashboard.py` 生成 `db_data.json`（忽略其生成的 HTML 模板）；部署由 `deploy_data.py` 完成
-- **部署流程**: (1) 运行 `generate_*.py` → (2) 运行 `deploy_data.py`（推送 db_data.json + 更新 version.txt + **同步更新 index.html 的 DATA_VERSION**）
-- **自动刷新机制**: 页面每 15s 轮询 `version.txt`，发现 `DATA_VERSION ≠ version.txt` 时自动 reload；reload 后新 `index.html` 的 `DATA_VERSION` 已同步为新值 → 稳定不再 reload
-- **自动刷新**: index.html 每 60 秒轮询 version.txt，检测版本变化后自动重新加载数据
+- **部署流程**: (1) 运行 `generate_*.py` → (2) 运行 `deploy_data.py`（仅推送 db_data.json + 更新 version.txt，**绝对不碰 index.html**）
 - **⚠️ 禁止直接推送  generate_*.py 生成的 index.html**：它不含手动修复（SUL_YN filter、collapsible POL TOTAL、ETB 筛选逻辑等），会覆盖线上功能
+- **⚠️ deploy_data.py 已于 2026-06-05 重写为 DATA ONLY 模式**：只推 db_data.json + version.txt，永远不修改 index.html
 - **数据规模**: ~57,000 条 booking 记录，44 Lanes，66 POLs，87 DELs，859 CULs
 
 ### 2026-05-22 修复记录
