@@ -10,7 +10,7 @@
 - **输出**: `generate_daily_booking_dashboard.py` 生成 `db_data.json`（忽略其生成的 HTML 模板）；部署由 `deploy_data.py` 完成
 - **部署流程**: (1) 运行 `generate_*.py` → (2) 运行 `deploy_data.py`（仅推送 db_data.json + 更新 version.txt，**绝对不碰 index.html**）
 - **⚠️ 禁止直接推送  generate_*.py 生成的 index.html**：它不含手动修复（SUL_YN filter、collapsible POL TOTAL、ETB 筛选逻辑等），会覆盖线上功能
-- **⚠️ deploy_data.py 已于 2026-06-05 重写为 DATA ONLY 模式**：只推 db_data.json + version.txt，永远不修改 index.html
+- **⚠️ deploy_data.py 已于 2026-06-05 重写为 DATA ONLY + Git Data API 模式**：只推 db_data.json + version.txt，永远不修改 index.html；使用 Git Data API（blob→tree→commit→ref）避开 Contents API 对 30MB+ 大文件的 403 限制
 - **数据规模**: ~57,000 条 booking 记录，44 Lanes，66 POLs，87 DELs，859 CULs
 
 ### 2026-05-22 修复记录
